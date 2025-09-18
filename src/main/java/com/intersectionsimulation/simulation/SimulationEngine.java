@@ -2,6 +2,7 @@ package com.intersectionsimulation.simulation;
 
 import com.intersectionsimulation.model.Lane;
 import com.intersectionsimulation.model.Road;
+import com.intersectionsimulation.model.SimulationTickResult;
 import com.intersectionsimulation.model.Vehicle;
 import com.intersectionsimulation.model.command.AddVehicleCommand;
 import com.intersectionsimulation.model.command.Command;
@@ -9,6 +10,7 @@ import com.intersectionsimulation.model.command.StepCommand;
 import com.intersectionsimulation.service.CollisionService;
 import com.intersectionsimulation.service.LaneMapperService;
 import com.intersectionsimulation.service.SignalGroupService;
+import com.intersectionsimulation.service.VehicleMovementService;
 import com.intersectionsimulation.util.ConfigReader;
 import com.intersectionsimulation.util.ResultWriter;
 import org.springframework.stereotype.Component;
@@ -24,17 +26,20 @@ public class SimulationEngine {
     private final LaneMapperService laneMapperService;
     private final SignalGroupService signalGroupService;
     private final CollisionService collisionService;
+    private final VehicleMovementService vehicleMovementService;
 
     public SimulationEngine(ConfigReader configReader,
                             ResultWriter resultWriter,
                             LaneMapperService laneMapperService,
                             SignalGroupService signalGroupService,
-                            CollisionService collisionService) {
+                            CollisionService collisionService,
+                            VehicleMovementService vehicleMovementService) {
         this.configReader = configReader;
         this.resultWriter = resultWriter;
         this.laneMapperService = laneMapperService;
         this.signalGroupService = signalGroupService;
         this.collisionService = collisionService;
+        this.vehicleMovementService = vehicleMovementService;
     }
 
     public void runFromConfig(Path outputFile) throws IOException {
@@ -68,5 +73,11 @@ public class SimulationEngine {
 
     public void step(){
         signalGroupService.handleStep();
+        SimulationTickResult simulationTickResult = vehicleMovementService.handleStep();
+        try {
+            resultWriter.writeTick(simulationTickResult);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

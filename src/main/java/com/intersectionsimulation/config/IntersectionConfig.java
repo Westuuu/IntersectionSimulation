@@ -26,6 +26,11 @@ public class IntersectionConfig {
         TrafficLight eastLight = new TrafficLight(eastLane);
         TrafficLight westLight = new TrafficLight(westLane);
 
+        northLane.setTrafficLight(northLight);
+        southLane.setTrafficLight(southLight);
+        eastLane.setTrafficLight(eastLight);
+        westLane.setTrafficLight(westLight);
+
         SignalGroup nsSignalGroup = new SignalGroup(List.of(northLight, southLight));
         SignalGroup ewSignalGroup = new SignalGroup(List.of(westLight, eastLight));
 
