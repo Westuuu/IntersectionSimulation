@@ -31,15 +31,19 @@ public class IntersectionConfig {
 
         Road northRoad = new Road(Direction.NORTH);
         northRoad.setLanes(List.of(northLane));
+        northLane.setParentRoad(northRoad);
 
         Road southRoad = new Road(Direction.SOUTH);
         southRoad.setLanes(List.of(southLane));
+        southLane.setParentRoad(southRoad);
 
         Road eastRoad = new Road(Direction.EAST);
         eastRoad.setLanes(List.of(eastLane));
+        eastLane.setParentRoad(eastRoad);
 
         Road westRoad = new Road(Direction.WEST);
         westRoad.setLanes(List.of(westLane));
+        westLane.setParentRoad(westRoad);
 
         return new Intersection(List.of(northRoad, southRoad, eastRoad, westRoad), List.of(nsSignalGroup, ewSignalGroup));
     }

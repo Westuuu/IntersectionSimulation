@@ -14,6 +14,7 @@ import com.intersectionsimulation.util.ResultWriter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 @Component
@@ -36,16 +37,18 @@ public class SimulationEngine {
         this.collisionService = collisionService;
     }
 
-    public void runFromConfig() throws IOException {
+    public void runFromConfig(Path outputFile) throws IOException {
+        resultWriter.start(outputFile);
         List<Command> commandsList = configReader.readCommands();
         commandsList.forEach(this::process);
+        resultWriter.end();
     }
 
     private void process(Command command) {
         if (command instanceof AddVehicleCommand) {
             handleAddVehicle((AddVehicleCommand) command);
         } else if (command instanceof StepCommand) {
-//            step();
+            step();
         }
     }
 
@@ -64,6 +67,6 @@ public class SimulationEngine {
     }
 
     public void step(){
-
+        signalGroupService.handleStep();
     }
 }

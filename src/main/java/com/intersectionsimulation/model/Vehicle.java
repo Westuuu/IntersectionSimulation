@@ -3,8 +3,12 @@ package com.intersectionsimulation.model;
 import com.intersectionsimulation.model.enums.Direction;
 import com.intersectionsimulation.model.enums.VehiclePosition;
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class Vehicle {
     private final String vehicleId;
     private final Road startRoad;

@@ -2,11 +2,16 @@ package com.intersectionsimulation.model;
 
 import com.intersectionsimulation.model.enums.Direction;
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class Lane {
     private LinkedList<Vehicle> vehiclesInQueue = new LinkedList<>();
     private TrafficLight trafficLight;
