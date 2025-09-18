@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.List;
 
 @SpringBootTest
@@ -19,8 +20,8 @@ public class ConfigReaderTest {
     List<Command> commands;
 
     @BeforeEach
-    public void setup() {
-        List<Command> commands = configReader.readCommands();
+    public void setup() throws IOException {
+        commands = configReader.readCommands();
     }
 
     @Test
@@ -42,8 +43,8 @@ public class ConfigReaderTest {
         AddVehicleCommand addVehicleCommand = (AddVehicleCommand) commands.getFirst();
 
         Assertions.assertEquals("vehicle1", addVehicleCommand.getVehicleId());
-        Assertions.assertEquals("south", addVehicleCommand.getStartLane().getDirection().toString());
-        Assertions.assertEquals("north", addVehicleCommand.getEndLane().getDirection().toString());
+        Assertions.assertEquals("south", addVehicleCommand.getStartRoad());
+        Assertions.assertEquals("north", addVehicleCommand.getEndRoad());
     }
 
     @Test

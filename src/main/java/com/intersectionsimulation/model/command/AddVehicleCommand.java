@@ -1,20 +1,27 @@
 package com.intersectionsimulation.model.command;
 
-import com.intersectionsimulation.model.Lane;
-import com.intersectionsimulation.service.LaneMapperService;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Getter
 public class AddVehicleCommand extends Command {
     private final String vehicleId;
-    private final Lane startLane;
-    private final Lane endLane;
+    private final String startRoad;
+    private final String endRoad;
 
-    public AddVehicleCommand(String vehicleId, String startLane, String endLane, LaneMapperService laneMapperService) {
+    @JsonCreator
+    public AddVehicleCommand(
+            @JsonProperty("vehicleId") String vehicleId,
+            @JsonProperty("startRoad") String startRoad,
+            @JsonProperty("endRoad") String endRoad) {
         this.vehicleId = vehicleId;
-        this.startLane = laneMapperService.resolveLane(startLane);
-        this.endLane = laneMapperService.resolveLane(endLane);
+        this.startRoad = startRoad;
+        this.endRoad = endRoad;
     }
 }
