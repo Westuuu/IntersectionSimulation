@@ -16,6 +16,15 @@ public class Vehicle {
         this.vehicleId = vehicleId;
         this.startRoad = startRoad;
         this.endRoad = endRoad;
+        assignLane();
+    }
 
+    /**
+     * This one should dynamically assign correct lane depending on the direction that this vehicle is going
+     * but for simplicity I assume one lane per road for now
+     * */
+//    TODO:  Create dynamic lane assigment
+    private void assignLane() {
+        this.lane = this.startRoad.getLanes().stream().findFirst().orElse(null);
     }
 }

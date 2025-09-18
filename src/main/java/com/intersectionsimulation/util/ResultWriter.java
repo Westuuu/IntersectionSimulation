@@ -21,7 +21,6 @@ public class ResultWriter {
         this.objectMapper = objectMapper;
     }
 
-
     public void start(Path outputFile) throws IOException {
         outputStream = Files.newOutputStream(outputFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         generator = objectMapper.getFactory().createGenerator(outputStream);

@@ -9,6 +9,10 @@ import java.util.List;
 
 @Configuration
 public class IntersectionConfig {
+
+    /**
+     * Simulation is running on an assumption that there is at most one Intersection instance,
+     * Intersection is configured via this bean at the moment, though there should be ideally a config file*/
     @Bean
     public Intersection intersection() {
 

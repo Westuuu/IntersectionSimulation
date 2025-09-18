@@ -8,8 +8,24 @@ import java.util.Queue;
 
 @Data
 public class Lane {
-    private Queue<Vehicle> vehiclesInQueue = new LinkedList<>();
+    private LinkedList<Vehicle> vehiclesInQueue = new LinkedList<>();
     private TrafficLight trafficLight;
     private Road parentRoad;
     private final Direction direction;
+
+    public void addVehicleToQueue(Vehicle vehicle) {
+        vehiclesInQueue.addLast(vehicle);
+    }
+
+    public void removeFirstVehicleFromQueue() {
+        vehiclesInQueue.pollFirst();
+    }
+
+    public Vehicle peekFirstVehicleInQueue() {
+        return vehiclesInQueue.peekFirst();
+    }
+
+    public int getQueueLength() {
+        return vehiclesInQueue.size();
+    }
 }
