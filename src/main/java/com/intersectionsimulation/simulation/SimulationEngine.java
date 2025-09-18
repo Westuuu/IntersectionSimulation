@@ -13,6 +13,7 @@ import com.intersectionsimulation.service.SignalGroupService;
 import com.intersectionsimulation.service.VehicleMovementService;
 import com.intersectionsimulation.util.ConfigReader;
 import com.intersectionsimulation.util.ResultWriter;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -42,9 +43,9 @@ public class SimulationEngine {
         this.vehicleMovementService = vehicleMovementService;
     }
 
-    public void runFromConfig(Path outputFile) throws IOException {
+    public void run(Path outputFile, Resource inputResource) throws IOException {
         resultWriter.start(outputFile);
-        List<Command> commandsList = configReader.readCommands();
+        List<Command> commandsList = configReader.readCommands(inputResource);
         commandsList.forEach(this::process);
         resultWriter.end();
     }
@@ -58,8 +59,6 @@ public class SimulationEngine {
     }
 
     private void handleAddVehicle(AddVehicleCommand command) {
-        // This might seem overkill for one lane per road
-        // but required in my view to leave space for implementing varying lane count
         Lane startLane = laneMapperService.resolveLane(command.getStartRoad());
         Road startRoad = startLane.getParentRoad();
 
@@ -71,7 +70,7 @@ public class SimulationEngine {
         startLane.addVehicleToQueue(vehicle);
     }
 
-    public void step(){
+    public void step() {
         signalGroupService.handleStep();
         SimulationTickResult simulationTickResult = vehicleMovementService.handleStep();
         try {

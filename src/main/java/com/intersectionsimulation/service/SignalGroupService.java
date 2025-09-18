@@ -39,6 +39,7 @@ public class SignalGroupService {
         this.currentSignalControlStrategy = fixedTimeStrategy;
         this.vehicleStrategyThreshold = vehicleStrategyThreshold;
         initializeSignalGroupStates();
+        this.currentSignalControlStrategy.onActivate();
     }
 
     private void initializeSignalGroupStates() {

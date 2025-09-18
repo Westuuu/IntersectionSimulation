@@ -9,7 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.util.List;
 
 @Component
@@ -23,13 +23,15 @@ public class ConfigReader {
     }
 
     public List<Command> readCommands() throws IOException {
-        byte[] fileContent = Files.readAllBytes(resource.getFile().toPath());
-
-        JsonNode root = mapper.readTree(fileContent);
-        JsonNode commands = root.get("commands");
-
-        return mapper.convertValue(commands, new TypeReference<List<Command>>() {
-        });
+        return readCommands(this.resource);
     }
 
+    public List<Command> readCommands(Resource resource) throws IOException {
+        try (InputStream inputStream = resource.getInputStream()) {
+            JsonNode root = mapper.readTree(inputStream);
+            JsonNode commands = root.get("commands");
+
+            return mapper.convertValue(commands, new TypeReference<List<Command>>() {});
+        }
+    }
 }

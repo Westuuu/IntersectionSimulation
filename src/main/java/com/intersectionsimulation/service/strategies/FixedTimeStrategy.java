@@ -1,5 +1,6 @@
 package com.intersectionsimulation.service.strategies;
 
+import com.intersectionsimulation.model.Intersection;
 import com.intersectionsimulation.model.SignalGroup;
 import com.intersectionsimulation.model.enums.TrafficLightState;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,19 +20,18 @@ public class FixedTimeStrategy implements SignalControlStrategy {
     public FixedTimeStrategy(@Value("${traffic.light.green.duration:10}") int greenDuration,
                              @Value("${traffic.light.yellowStates:1}") int yellowDuration,
                              @Value("${traffic.light.yellowStates:1}") int yellowRedDuration,
-                             List<SignalGroup> signalGroups) {
+                             Intersection intersection) {
         this.greenDuration = greenDuration;
         this.yellowDuration = yellowDuration;
         this.yellowRedDuration = yellowRedDuration;
-        this.signalGroups = signalGroups;
+        this.signalGroups = intersection.getSignalGroups();
         this.redDuration = calculateRedDuration();
-        onActivate();
     }
 
     private int calculateRedDuration() {
         int groupCount = signalGroups.size();
         int cycleTimePerGroup = greenDuration + yellowDuration + yellowRedDuration;
-        return cycleTimePerGroup * groupCount;
+        return cycleTimePerGroup * (groupCount - 1);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class FixedTimeStrategy implements SignalControlStrategy {
     private void resetDurationForCurrentState(SignalGroup signalGroup) {
         TrafficLightState state = signalGroup.getTrafficLights().getFirst().getCurrentState();
         int duration = switch (state) {
-            case GREEN -> signalGroup.getGreenDuration();
+            case GREEN -> this.greenDuration;
             case YELLOW -> yellowDuration;
             case RED -> redDuration;
             case YELLOW_RED -> yellowRedDuration;

@@ -47,6 +47,19 @@ public class VehicleMovementService {
             vehicle.setCurrentPosition(VehiclePosition.nextVehiclePosition(currentPosition));
             vehicle.setLane(null);
             exitedVehicles.add(vehicle);
+
+
+            Vehicle nextVehicle = lane.peekFirstVehicleInQueue();
+            if (nextVehicle != null) {
+                VehiclePosition nextPos = nextVehicle.getCurrentPosition();
+                if (nextPos == null) {
+                    nextPos = VehiclePosition.WAITING;
+                }
+                TrafficLightState state = lane.getTrafficLight().getCurrentState();
+                if (state == TrafficLightState.GREEN && nextPos == VehiclePosition.WAITING) {
+                    nextVehicle.setCurrentPosition(VehiclePosition.AT_INTERSECTION);
+                }
+            }
             return;
         }
 
