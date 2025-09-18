@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Intersection {
-    List<Road> roads;
-    List<SignalGroup> signalGroups;
+    private List<Road> roads;
+    private List<SignalGroup> signalGroups;
 }

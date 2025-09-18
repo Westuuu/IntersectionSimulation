@@ -17,5 +17,7 @@ public enum VehiclePosition {
                 return currentVehiclePosition;
             }
         }
-    };
+    }
+
+
 }

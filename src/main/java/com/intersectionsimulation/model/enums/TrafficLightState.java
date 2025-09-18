@@ -4,5 +4,5 @@ public enum TrafficLightState {
     RED,
     YELLOW_RED,
     GREEN,
-    YELLOW
+    YELLOW;
 }

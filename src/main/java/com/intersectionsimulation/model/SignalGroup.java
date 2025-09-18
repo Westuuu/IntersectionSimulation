@@ -6,5 +6,12 @@ import java.util.List;
 
 @Data
 public class SignalGroup {
-    List<TrafficLight> trafficLights;
+    private final List<TrafficLight> trafficLights;
+
+    public SignalGroup(List<TrafficLight> trafficLights) {
+        this.trafficLights = trafficLights;
+        this.trafficLights.forEach(trafficLight -> {
+            trafficLight.setSignalGroup(this);
+        });
+    }
 }

@@ -5,5 +5,7 @@ import lombok.Data;
 
 @Data
 public class TrafficLight {
-    TrafficLightState currentState;
+    private TrafficLightState currentState;
+    private final Lane lane;
+    private SignalGroup signalGroup;
 }
